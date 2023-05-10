@@ -69,15 +69,14 @@ It can be notcied that gender is either missing or is not "M" or "F" (i.e. is un
 
 ### Step 3: Define the Data Model
 #### 3.1 Conceptual Data Model
-Reason for choosing this model  
-Fact data is immigration data. It will have the following dimensions, so that reports can be run to get statistics based on the following groupings:  
+The purpose of the final data model is so that reports or a dashboard can be run to get statistics based on the following groupings:  
     1. Mode of Travel  
     2. State  
     3. Country  
     4. Travel Visa  
     5. Port  
     
-An extra dimension is going to be added based upon state demographics. This will allow for the construction of state based statistics with a demographic element, such as male, female and total population and foreign born. This could be used to find demographic correlations in the data such as percentages of state immigration based upon population.   
+An extra dimension is also added based upon state demographics. This will allow for the further construction of state based statistics with a demographic element, such as male, female and total population and foreign born. This could be used to find demographic correlations in the data such as percentages of state immigration based upon population.   
 
 ![model](https://github.com/andrewkendallyoung/Capstone/assets/122558520/dca0f197-0ad6-4114-853c-8c732613ec19)
 
