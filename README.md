@@ -129,9 +129,9 @@ plugins/operators/stage_redshift.py
 The Data Dictionary is included in the Jupyter Notebook.
 
 #### Step 5: Project Write Up Summary
-* Clearly state the rationale for the choice of tools and technologies for the project.
-* Propose how often the data should be updated and why.
-* Write a description of how you would approach the problem differently under the following scenarios:
- * The data was increased by 100x.
- * The data populates a dashboard that must be updated on a daily basis by 7am every day.
- * The database needed to be accessed by 100+ people.
+* The rationale for the choice of tools and technologies for the project is stated above in section 1.
+* The current DAG schedule is set to "none". This is so that it can be run on demand with a manual trigger. The data could be updated on an hourly or daily schedule. If this is the case then the truncate flags on the fact data should be set to "False", so that the data is appended and the schedule interval would be set to '@hourly'. It would not be necessary to refresh the dimension data unless it changes. 
+* How I would approach the problem differently under the following scenarios:
+ * The data was increased by 100x. In this case I would not change anything about the process I developed except I would check the monitoring tools within AWS Redshift to see if the resources (CPU, etc) are over utilised. If this is the case I would add a node to the cluster to expand the processing (scale out) or increase the cluster type power (scale up). This would be repeated until the solution was scaled properly.  
+ * The data populates a dashboard that must be updated on a daily basis by 7am every day. I would run the DAG on a daily schedule with a start time that would mean the DAG would complete by 7am. 
+ * The database needed to be accessed by 100+ people. In this case there would be increased pressure to the database engine. I would look to scale out or scale up the Redshift Cluster in order to meet this demand.
