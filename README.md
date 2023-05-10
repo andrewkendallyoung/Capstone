@@ -31,7 +31,6 @@ The tools used in the project are:
 - Docker to test the airflow pipeline locally. This provided the runtime environment for my local airflow installation, where I could see all the logs generated, etc.
 - AWS S3 to host the raw input data. Since the fact data is a large dataset, it seemed best to me to store it on S3 to allow for it to be staged directly to Redshift with minimal delay, Supporting files are also stored here.
 - AWS Redshift to host the star schema data warehouse. This is justified by its scalability and ease of use. If it was necessary to process a larger amount of data then Redshift can be scaled up by adding more nodes.
-- Excel to help visualise the data and look for data quality issues
 
 #### Describe and Gather Data 
  
@@ -81,19 +80,25 @@ Fact data is immigration data. It will have the following dimensions, so that re
 An extra dimension is going to be added based upon state demographics. This will allow for the construction of state based statistics with a demographic element, such as male, female and total population and foreign born. This could be used to find demographic correlations in the data such as percentages of state immigration based upon population. 
 
 #### 3.2 Mapping Out Data Pipelines
-There are the steps necessary to pipeline the data into the chosen data model  
-
-The steps will be run by airflow in a DAG.  
-
-#### Prerequisits
-- Immigration parquest files are to be uploaded into an S3 bucket in advance  
-- The files "us-cities-demographics.csv" and I94_SAS_Labels_Descriptions.SAS supporting files will also be uploaded and made available in the same S3 bucket  
+These are the steps necessary to pipeline the data into my chosen data model.
 
 1. Stage immigration parquet files from S3 into fact_immigration table
-2. In parallel with the above, load the dimension tables by transforming the data in the supporting files 
+2. In parallel with the above, load the dimension tables by transforming the data in the dictionary file: I94_SAS_Labels_Descriptions.SAS 
 3. Once the fact and dimension tables are loaded, perform data cleansing processes (in SQL) on them
 4. Once all data cleansing processes are complete, perform data quality checks on the fact and dimension tables
-5. The successful end of the pipeline will be when all data quality checks are passed.
+5. The successful end of the pipeline will be when all data quality checks are passed. A failure of a data quality check will result in the failure of the DAG step
+
+The steps will be run by airflow in a DAG, which can be pictured as follows:  
+
+![etl_immigration_dag](https://github.com/andrewkendallyoung/Capstone/assets/122558520/221c6af1-fe81-42b1-9a66-a552e29b187e)
+
+#### Prerequisits
+- Immigration parquet files are to be uploaded into an S3 bucket in advance  
+- The files "us-cities-demographics.csv" and I94_SAS_Labels_Descriptions.SAS supporting files are also be uploaded and made available in the same S3 bucket   
+- I have already uploaded these files into the following public buckets:  
+  - s3://dacity-dend-capstone-aky/sas_data   
+  - s3://dacity-dend-capstone-aky/dim_data  
+
 
 ### Step 4: Run Pipelines to Model the Data 
 #### 4.1 Create the data model
