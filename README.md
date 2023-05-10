@@ -77,7 +77,9 @@ Fact data is immigration data. It will have the following dimensions, so that re
     4. Travel Visa  
     5. Port  
     
-An extra dimension is going to be added based upon state demographics. This will allow for the construction of state based statistics with a demographic element, such as male, female and total population and foreign born. This could be used to find demographic correlations in the data such as percentages of state immigration based upon population. 
+An extra dimension is going to be added based upon state demographics. This will allow for the construction of state based statistics with a demographic element, such as male, female and total population and foreign born. This could be used to find demographic correlations in the data such as percentages of state immigration based upon population.   
+
+![model](https://github.com/andrewkendallyoung/Capstone/assets/122558520/dca0f197-0ad6-4114-853c-8c732613ec19)
 
 #### 3.2 Mapping Out Data Pipelines
 These are the steps necessary to pipeline the data into my chosen data model.
@@ -90,7 +92,7 @@ These are the steps necessary to pipeline the data into my chosen data model.
 
 The steps will be orchestrated to run by airflow in a DAG.  
 
-#### Prerequisits
+### !! Prerequisits BEFORE running the DAG in Airflow !!
 - Immigration parquet files are to be uploaded into an S3 bucket in advance  
 - The files "us-cities-demographics.csv" and I94_SAS_Labels_Descriptions.SAS supporting files are also be uploaded and made available in the same S3 bucket   
 - **I have already uploaded these files into the following public buckets:**
