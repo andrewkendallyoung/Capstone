@@ -23,7 +23,7 @@ The data used in this project is as follows:
 - U.S. City Demographic Data: This data comes from OpenSoft (csv file)
 
 The tools used in the project are:
-- Jupyter notebook for structuring and performing the data analysis, exploration and assessment. Also this was used for defining and planning the pipelines necessary to take the raw data and transform it into the star schema data warehouse. The notebook was a good way planning the porject as well as being able to write small code snippets that would contribute to the end solution.
+- Jupyter notebook for structuring and performing the data analysis, exploration and assessment. Also this was used for defining and planning the pipelines necessary to take the raw data and transform it into the star schema data warehouse. The notebook was a good way planning the porject as well as being able to write small code snippets that would contribute to the end solution. Please see "Capstone Project.ipynb"
 - Airflow to orchestrate the ETL pipeline. This tool is excellent at coordinating the tasks involved in the ETL pipeline and is justified by also allowing for several tasks being able to be executed in parallel at once.
 - Python to code the ETL process
 - VS Studio Code to help write the ETL progress. This tool helped me write the pythin code, especially with syntax highlighting
