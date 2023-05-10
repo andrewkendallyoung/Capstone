@@ -88,21 +88,26 @@ These are the steps necessary to pipeline the data into my chosen data model.
 4. Once all data cleansing processes are complete, perform data quality checks on the fact and dimension tables
 5. The successful end of the pipeline will be when all data quality checks are passed. A failure of a data quality check will result in the failure of the DAG step
 
-The steps will be run by airflow in a DAG, which can be pictured as follows:  
-
-![etl_immigration_dag](https://github.com/andrewkendallyoung/Capstone/assets/122558520/221c6af1-fe81-42b1-9a66-a552e29b187e)
+The steps will be orchestrated to run by airflow in a DAG.  
 
 #### Prerequisits
 - Immigration parquet files are to be uploaded into an S3 bucket in advance  
 - The files "us-cities-demographics.csv" and I94_SAS_Labels_Descriptions.SAS supporting files are also be uploaded and made available in the same S3 bucket   
-- I have already uploaded these files into the following public buckets:  
+- **I have already uploaded these files into the following public buckets:**
   - s3://dacity-dend-capstone-aky/sas_data   
   - s3://dacity-dend-capstone-aky/dim_data  
+- The following parameters should be set in Airflow .. Connections  
+  - aws_credentials (Type Amazon Web Services). The login and password are the user authorised to access S3 and Redshift.
+  - redshift (Type postgres). Specifying the host endpoint of the redshift cluster along with the aws user, password and port number.
+- On the redshift cluster, before running the DAG, pre-create the schema physical data model by running: **create_immg_tables.sql**
 
 
 ### Step 4: Run Pipelines to Model the Data 
 #### 4.1 Create the data model
-Build the data pipelines to create the data model.
+Run the DAG pipeline in airflow 
+
+![etl_immigration_dag](https://github.com/andrewkendallyoung/Capstone/assets/122558520/32cb85c5-7e54-4680-a153-ac9e34e7ea08)
+
 
 #### See code in this repository
 
@@ -115,12 +120,8 @@ plugins/operators/load_dimensions.py
 plugins/operators/stage_redshift.py  
 
 #### 4.2 Data Quality Checks
-Explain the data quality checks you'll perform to ensure the pipeline ran as expected. These could include:
- * Integrity constraints on the relational database (e.g., unique key, data type, etc.)
- * Unit tests for the scripts to ensure they are doing the right thing
- * Source/Count checks to ensure completeness
+* Seven data quality checks are run, one for each loaded table, to ensure none are empty. If any empty tables are found then the DAG step will fail. 
  
-Run Quality Checks
 
 #### 4.3 Data dictionary 
 Create a data dictionary for your data model. For each field, provide a brief description of what the data is and where it came from. You can include the data dictionary in the notebook or in a separate file.
